@@ -3,3 +3,58 @@
     padding: 0;
     box-sizing: border-box;
 }
+body {
+  background-color: rgba(10, 10, 20, 1);
+  color: rgba(255, 255, 255, 0.9);
+  font-family: "Press Start 2P", cursive;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.gamearea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: rgba(25, 25, 40, 1);
+  border: 3px solid rgba(128, 0, 128, 0.5);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(128, 0, 128, 0.3);
+  width: 400px;
+  position: relative;
+}
+
+canvas {
+  background-color: rgba(0, 0, 0, 1);
+  border: 3px solid rgba(128, 0, 128, 0.4);
+  border-radius: 8px;
+  display: block;
+  max-width: 100%;
+}
+
+#info {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+h1 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+#scorearea {
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.9em;
+}
+
+#instructions {
+  font-size: 0.8em;
+  margin-bottom: 15px;
+  color: #ddd;
+}
