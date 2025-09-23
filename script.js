@@ -377,4 +377,3 @@ addMobileTouchListener("jump-btn", "jump");
 startbtn.addEventListener("click", startGame);
 
 updatescore();
-
