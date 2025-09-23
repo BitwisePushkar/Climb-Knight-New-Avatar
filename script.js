@@ -260,3 +260,120 @@ function update() {
     draw();
     requestAnimationFrame(update);
 }
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawFloors();
+    drawLadders();
+    drawObstacles();
+    drawCoins();
+    drawPlayer();
+}
+
+function resetGame() {
+    score = 0;
+    cscore = 0;
+    hplatformY = canvas.height;
+    cameraY = 0;
+    glevel();
+    player.x = canvas.width / 2 - player.width / 2;
+    player.y = platforms[0].y - player.height;
+    player.velocityX = 0;
+    player.velocityY = 0;
+    player.onLadder = false;
+    player.onGround = false;
+    updatescore();
+}
+
+function startGame() {
+    resetGame();
+    gstart = true;
+    gover = false;
+    goverlay.style.display = "none";
+    bgMusic.currentTime = 0;
+    bgMusic.play().then(() => {
+      console.log("Audio playing");
+    }).catch((err) => {
+      console.warn("Audio play failed:", err);
+    });
+    update();
+}
+
+
+function endGame() {
+    if (gover) return;
+    gover = true;
+    gstart = false;
+    //bgMusic.pause();
+    if (score > hscore) hscore = score;
+    msg.textContent = "Game Over!";
+    finalscore.textContent = `Score: ${score}\nCoins: ${cscore}\nHighscore: ${hscore}`;
+    startbtn.textContent = "Restart";
+    goverlay.style.display = "flex";
+}
+
+window.addEventListener("keydown", (e) => {
+    switch (e.code) {
+        case "ArrowRight":
+            keys.right = true;
+            break;
+
+        case "ArrowLeft":
+            keys.left = true;
+            break;
+
+        case "ArrowUp":
+            keys.up = true;
+            break;
+
+        case "ArrowDown":
+            keys.down = true;
+            break;
+
+        case "Space":
+            keys.jump = true;
+            break;
+    }
+});
+
+
+window.addEventListener("keyup", (e) => {
+    switch (e.code) {
+        case "ArrowRight":
+            keys.right = false;
+            break;
+
+        case "ArrowLeft":
+            keys.left = false;
+            break;
+
+        case "ArrowUp":
+            keys.up = false;
+            break;
+
+        case "ArrowDown":
+            keys.down = false;
+            break;
+
+        case "Space":
+            keys.jump = false;
+            break;
+    }
+});
+
+
+function addMobileTouchListener(id, keyName) {
+    const btn = document.getElementById(id);
+    btn.addEventListener("touchstart", (e) => { e.preventDefault(); keys[keyName] = true; });
+    btn.addEventListener("touchend", (e) => { e.preventDefault(); keys[keyName] = false; });
+}
+
+addMobileTouchListener("left-btn", "left");
+addMobileTouchListener("right-btn", "right");
+addMobileTouchListener("up-btn", "up");
+addMobileTouchListener("down-btn", "down");
+addMobileTouchListener("jump-btn", "jump");
+
+startbtn.addEventListener("click", startGame);
+
+updatescore();
