@@ -27,10 +27,10 @@ knightImg.src = "./assets/Knight.png";
 let assestl = 0;
 const total = 4;
 function assetLoaded() {
-    assestl++;
-    if (assestl === 4) {
-        startbtn.disabled = false;
-    }
+  assestl++;
+  if (assestl === 4) {
+    startbtn.disabled = false;
+  }
 }
 coinImg.onload = assetLoaded;
 monsterImg1.onload = assetLoaded;
@@ -43,8 +43,8 @@ const player = {
   y: 0,
   width: 80,
   height: 80,
-  speed: 4,
-  climbSpeed: 4,
+  speed: 2,
+  climbSpeed: 2,
   velocityX: 0,
   velocityY: 0,
   onLadder: false,
@@ -171,7 +171,7 @@ function glevel() {
         width: obsWidth,
         height: obsHeight,
         type: monsterType,
-        velocityX: 2,
+        velocityX: 1,
         direction: 1,
         platformLeft: 0,
         platformRight: canvas.width,
@@ -189,6 +189,7 @@ function updatescore() {
   scoree.textContent = `Score: ${score}`;
   coinse.textContent = `Coins: ${cscore}`;
 }
+
 function update() {
   if (!gstart || gover) return;
 
@@ -410,11 +411,25 @@ window.addEventListener("keyup", (e) => {
       break;
   }
 });
+
 function addMobileTouchListener(id, keyName) {
-    const btn = document.getElementById(id);
-    btn.addEventListener("touchstart", (e) => { e.preventDefault(); keys[keyName] = true; });
-    btn.addEventListener("touchend", (e) => { e.preventDefault(); keys[keyName] = false; });
+  const btn = document.getElementById(id);
+  btn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    keys[keyName] = true;
+  });
+  btn.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    keys[keyName] = false;
+  });
 }
+
+addMobileTouchListener("left-btn", "left");
+addMobileTouchListener("right-btn", "right");
+addMobileTouchListener("up-btn", "up");
+addMobileTouchListener("down-btn", "down");
+addMobileTouchListener("jump-btn", "jump");
+
 startbtn.addEventListener("click", startGame);
 
 updatescore();
