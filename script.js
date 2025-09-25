@@ -8,7 +8,6 @@ const finalscore = document.getElementById("final-score");
 const startbtn = document.getElementById("start-button");
 const bgMusic = document.getElementById("bg-music");
 
-
 let score = 0;
 let cscore = 0;
 let hscore = 0;
@@ -24,7 +23,6 @@ const monsterImg2 = new Image();
 monsterImg2.src = "./assets/monster2.png";
 const knightImg = new Image();
 knightImg.src = "./assets/Knight.png";
-
 
 let assestl = 0;
 const total = 4;
@@ -43,17 +41,15 @@ startbtn.disabled = true;
 const player = {
     x: canvas.width / 2 - 60,
     y: 0,
-    width: 120,
-    height: 100,
+    width: 60,
+    height: 80,
     speed: 4,
     climbSpeed: 3,
     velocityX: 0,
     velocityY: 0,
     onLadder: false,
     onGround: false,
-    jumpStrength: 11,
-    color: "rgba(192, 192, 192, 1)",
-    capeColor: "rgba(255, 0, 0, 1)",
+    jumpStrength: 14,
 };
 
 const gravity = 0.5;
@@ -125,11 +121,17 @@ function glevel() {
     const ladderWidth = 20;
     platforms.push({ x: 0, y: canvas.height - 30, width: canvas.width, height: platformh });
 
-    for (let i = 1; i < 50; i++) {
+    for (let i = 1; i < 100; i++) {
         const lastFloorY = platforms[platforms.length - 1].y;
         const newFloorY = lastFloorY - floorDistance;
-        const ladderX = Math.random() * (canvas.width - ladderWidth);
-        platforms.push({ x: 0, y: newFloorY, width: canvas.width, height: platformh });
+        const minPlatformWidth = 400;
+        const maxPlatformWidth = Math.min(400, canvas.width - 20);
+        const platformWidth = Math.random() * (maxPlatformWidth - minPlatformWidth) + minPlatformWidth;
+        const platformX = Math.random() * (canvas.width - platformWidth);
+
+        platforms.push({ x: platformX, y: newFloorY, width: platformWidth, height: platformh });
+
+        const ladderX = platformX + Math.random() * (platformWidth - ladderWidth);
         ladders.push({ x: ladderX, y: newFloorY, height: floorDistance, width: ladderWidth });
 
         if (Math.random() < 0.6) {
@@ -139,7 +141,7 @@ function glevel() {
             const monsterType = Math.random() < 0.5 ? 1 : 2;
             obstacles.push({
                 x: obsX, y: newFloorY - obsHeight, width: obsWidth, height: obsHeight,
-                type: monsterType
+                type: monsterType, velocityX: 2, direction: 1, platformLeft: 0, platformRight: canvas.width,
             });
         }
 
@@ -165,13 +167,13 @@ function update() {
         const ladderc = ladder.x + ladder.width / 2;
         const playerc = player.x + player.width / 2;
         const horizontalAlignment = Math.abs(playerc - ladderc) < 15;
-        const ladderPadding = 10; 
+        const ladderPadding = 10;
         if (
             player.x + player.width > ladder.x - ladderPadding &&
             player.x < ladder.x + ladder.width + ladderPadding &&
             player.y + player.height > ladder.y &&
             player.y < ladder.y + ladder.height
-        ){
+        ) {
             onLadderZone = true;
             currentLadder = ladder;
             break;
@@ -186,9 +188,13 @@ function update() {
             player.x = currentLadder.x + currentLadder.width / 2 - player.width / 2;
         }
     } else {
-        player.velocityX = 0;
-        if (keys.left) player.velocityX = -player.speed;
-        if (keys.right) player.velocityX = player.speed;
+        if (keys.left) {
+            player.velocityX = -player.speed;
+        } else if (keys.right) {
+            player.velocityX = player.speed;
+        } else {
+            player.velocityX = 0;
+        }
         player.velocityY += gravity;
         player.x += player.velocityX;
         player.y += player.velocityY;
@@ -218,11 +224,12 @@ function update() {
                 }
             }
         }
-
+        if (score >= 100) {
+            endGame();
+        }
     }
-    player.onGround = onAnyPlatform;
 
-    if (keys.jump && player.onGround) {
+    if (keys.jump && onAnyPlatform) {
         player.velocityY = -player.jumpStrength;
     }
 
@@ -237,12 +244,16 @@ function update() {
     }
     for (let i = 0; i < obstacles.length; i++) {
         const obs = obstacles[i];
-        const padding = 10; 
+        obs.x += obs.velocityX * obs.direction;
+        if (obs.x <= obs.platformLeft || obs.x + obs.width >= obs.platformRight) {
+            obs.direction *= -1;
+        }
+
         if (
-            player.x + padding < obs.x + obs.width &&
-            player.x + player.width - padding > obs.x &&
-            player.y + padding < obs.y + obs.height &&
-            player.y + player.height - padding > obs.y
+            player.x < obs.x + obs.width &&
+            player.x + player.width > obs.x &&
+            player.y < obs.y + obs.height &&
+            player.y + player.height > obs.y
         ) {
             endGame();
         }
@@ -291,23 +302,18 @@ function startGame() {
     gover = false;
     goverlay.style.display = "none";
     bgMusic.currentTime = 0;
-    bgMusic.play().then(() => {
-      console.log("Audio playing");
-    }).catch((err) => {
-      console.warn("Audio play failed:", err);
-    });
+    bgMusic.play().catch(() => { });
     update();
 }
-
 
 function endGame() {
     if (gover) return;
     gover = true;
     gstart = false;
-    //bgMusic.pause();
     if (score > hscore) hscore = score;
+
     msg.textContent = "Game Over!";
-    finalscore.textContent = `Score: ${score}\nCoins: ${cscore}\nHighscore: ${hscore}`;
+    finalscore.innerHTML = `Score: ${score}<br>Coins: ${cscore}<br>Highscore: ${hscore}`;
     startbtn.textContent = "Restart";
     goverlay.style.display = "flex";
 }
@@ -376,4 +382,4 @@ addMobileTouchListener("jump-btn", "jump");
 
 startbtn.addEventListener("click", startGame);
 
-updatescore(); 
+updatescore();
