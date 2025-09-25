@@ -124,13 +124,9 @@ function glevel() {
     for (let i = 1; i < 100; i++) {
         const lastFloorY = platforms[platforms.length - 1].y;
         const newFloorY = lastFloorY - floorDistance;
-        const minPlatformWidth = 400;
-        const maxPlatformWidth = Math.min(400, canvas.width - 20);
-        const platformWidth = Math.random() * (maxPlatformWidth - minPlatformWidth) + minPlatformWidth;
-        const platformX = Math.random() * (canvas.width - platformWidth);
-
+        const platformWidth = canvas.width;
+        const platformX = 0;
         platforms.push({ x: platformX, y: newFloorY, width: platformWidth, height: platformh });
-
         const ladderX = platformX + Math.random() * (platformWidth - ladderWidth);
         ladders.push({ x: ladderX, y: newFloorY, height: floorDistance, width: ladderWidth });
 
