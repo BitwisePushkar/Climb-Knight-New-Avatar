@@ -39,21 +39,6 @@ knightImg.onload = assetLoaded;
 startbtn.disabled = true;
 
 const player = {
-<<<<<<< Updated upstream
-  x: canvas.width / 2 - 40,
-  y: 0,
-  width: 80,
-  height: 80,
-  speed: 4,
-  climbSpeed: 4,
-  velocityX: 0,
-  velocityY: 0,
-  onLadder: false,
-  onGround: false, 
-  jumpStrength: 9,
-  color: "rgba(192, 192, 192, 1)",
-  capeColor: "rgba(255, 0, 0, 1)",
-=======
     x: canvas.width / 2 - 60,
     y: 0,
     width: 60,
@@ -65,7 +50,6 @@ const player = {
     onLadder: false,
     onGround: false,
     jumpStrength: 11,
->>>>>>> Stashed changes
 };
 
 const gravity = 0.3;
