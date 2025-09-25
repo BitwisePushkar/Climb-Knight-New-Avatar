@@ -1,46 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Climb Knight: New Avatar</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="./assets/favicon.png" />
-</head>
-
-<body>
-  <div class="gamearea">
-    <div id="info">
-      <h1>Climb Knight: New Avatar</h1>
-      <div id="scorearea">
-        <div id="score">Score: 0</div>
-        <div id="coin-score">Coins: 0</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Climb Knight: New Avatar</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+  </head>
+  <body>
+    <div class="gamearea">
+      <div id="info">
+        <h1>Climb Knight: New Avatar</h1>
+        <div id="scorearea">
+          <div id="score">Score: 0</div>
+          <div id="coin-score">Coins: 0</div>
+        </div>
       </div>
-    </div>
-    <canvas id="gameCanvas" width="400" height="600"></canvas>
-    <div id="mobile-controls">
-      <div class="mobile-btn" id="left-btn">&lt;</div>
-      <div class="mobile-btn" id="right-btn">&gt;</div>
-      <div class="mobile-btn" id="up-btn">^</div>
-      <div class="mobile-btn" id="down-btn">v</div>
-      <div class="mobile-btn jump" id="jump-btn">JUMP</div>
-    </div>
-    <div id="instructions">
+      
+      <canvas id="gameCanvas" width="600" height="600"></canvas>    
+      
+      <div id="mobile-controls">
+        <div class="mobile-btn" id="left-btn">&lt;</div>
+        <div class="mobile-btn" id="right-btn">&gt;</div>
+        <div class="mobile-btn" id="up-btn">^</div>
+        <div class="mobile-btn" id="down-btn">v</div>
+        <div class="mobile-btn jump" id="jump-btn">JUMP</div>
+      </div>
+      
+      <div id="instructions">
         <p>Use arrow keys to move and climb</p>
         <p>Press Space to jump</p>
         <p>Collect coins and avoid monsters!</p>
       </div>
-  </div>
+    </div>
 
-  <div id="game-overlay">
-    <h2 id="message">Climb Knight: New Avatar</h2>
-    <p id="final-score"></p>
-    <button id="start-button">Start Game</button>
-  </div>
-  <audio id="bg-music" src="./assets/background.mp3" preload="auto" loop></audio>
-  <script src="script.js"></script>
-</body>
-
+    <div id="game-overlay">
+      <h2 id="message">Climb Knight: New Avatar</h2>
+      <p id="final-score"></p>
+          <button id="start-button">Start Game</button>  
+    </div>
+     
+    <audio
+      id="bg-music"
+      src="./assets/background.mp3"
+      preload="auto"
+      loop
+    ></audio>
+     
+    <script src="script.js"></script>
+  </body>
 </html>
