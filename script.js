@@ -44,12 +44,12 @@ const player = {
     width: 60,
     height: 80,
     speed: 4,
-    climbSpeed: 3,
+    climbSpeed: 4,
     velocityX: 0,
     velocityY: 0,
     onLadder: false,
     onGround: false,
-    jumpStrength: 14,
+    jumpStrength: 11,
 };
 
 const gravity = 0.5;
